@@ -1,6 +1,10 @@
+#!/bin/bash
+
+# kill
 docker kill mask
 sleep 1
 
+# run
 docker run \
   --rm \
   --detach \

@@ -6,7 +6,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.output_parsers import PydanticOutputParser
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, END
-from pii_entities import TransformedData
+from entities import TransformedData, ReflectionOuput
 from prompts import pii_prompt_template, pii_reflect_template
 from langchain.pydantic_v1 import BaseModel, Field
 from textwrap import dedent

@@ -25,3 +25,9 @@ class TransformedData(BaseModel):
     """
     identifiers: Optional[Identifiers] = Field(description="Structure holding the identified PII elements")
     tagged_text: Optional[str] = Field(description="The input text with PII elements tagged")
+    
+    
+class ReflectionOuput(BaseModel):
+    review: str = Field(default="n/a", description="Review of the TransformedData as to how well it aligns with the expected format")
+    recommendations: str = Field(default="n/a", description="Actionable recommendations formatted as a multiline string containing bulleted list of necessary changes to align with original formatting instructions and improvement if needed for any attribute. Use examples as needed. If the TransformedData matches all requirements say so.")
+    feedback: str = Field(default="n/a", description="'perfect' if no changes are required, or 'needs work' otherwise")

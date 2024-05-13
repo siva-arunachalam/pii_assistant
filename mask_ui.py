@@ -5,7 +5,7 @@ from mask_utils import highlight_text, mask_text
 from style import text_box_style
 from masking_agent import PIITagger
 
-def tag_pii(model_choice, input_text):
+def tag_pii(model_choice: str, input_text: str) -> None:
     """
     Masks the PII in the given input text using the specified model and updates the session state.
     
@@ -13,20 +13,26 @@ def tag_pii(model_choice, input_text):
         model_choice (str): The name of the model to use for masking.
         input_text (str): The input text to mask.
     """
-    pii_tagger = PIITagger()
-    response = pii_tagger.tag_pii_elements(model_choice, input_text)
-    tagged_text = response['transformed_data'].tagged_text
-    identifiers = response['transformed_data'].identifiers
-    
-    st.session_state.tagged_text = tagged_text
-    st.session_state.highlighted_text = highlight_text(tagged_text=tagged_text)
-    st.session_state.identifiers = identifiers
+    try:
+        pii_tagger = PIITagger()
+        response = pii_tagger.tag_pii_elements(model_choice, input_text)
+        tagged_text = response['transformed_data'].tagged_text
+        identifiers = response['transformed_data'].identifiers
+        
+        st.session_state.tagged_text = tagged_text
+        st.session_state.highlighted_text = highlight_text(tagged_text=tagged_text)
+        st.session_state.identifiers = identifiers
+    except Exception as e:
+        st.error(f"Error tagging PII for the input text: {str(e)}")
 
 
 def mask_pii():
-    tagged_text = st.session_state.tagged_text
-    identifiers_dict = st.session_state.identifiers.dict()
-    st.session_state.masked_text, st.session_state.masked_text_with_highlights = mask_text(tagged_text, identifiers_dict)
+    try:
+        tagged_text = st.session_state.tagged_text
+        identifiers_dict = st.session_state.identifiers.dict()
+        st.session_state.masked_text, st.session_state.masked_text_with_highlights = mask_text(tagged_text, identifiers_dict)
+    except Exception as e:
+        st.error(f"Error masking PII elements: {str(e)}")
 
 
 demo_text = dedent(
